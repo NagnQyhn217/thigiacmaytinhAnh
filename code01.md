@@ -6,17 +6,22 @@ graph TD
     classDef output stroke:#7c3aed,stroke-width:1.5px,fill:#f5f3ff,rx:6px,ry:6px;
 
     subgraph MAIN ["CHƯƠNG TRÌNH CHÍNH - main.py"]
-        A["Khởi tạo và điều phối các module"] ::: mainApp
+        A["Khởi tạo và điều phối các module"]
 
-        A --> B["detector (YOLOv8)"] ::: module
-        A --> C["tracker (Kalman / IoU / Cosine / Maha)"] ::: module
-        A --> D["tts (Edge-TTS)"] ::: module
+        A --> B["detector (YOLOv8)"]
+        A --> C["tracker (Kalman / IoU / Cosine / Maha)"]
+        A --> D["tts (Edge-TTS)"]
 
-        B --> E["distance.py (Ước lượng khoảng cách)"] ::: subModule
-        C --> F["face_recognition.py (Haar + Template Matching)"] ::: subModule
+        B --> E["distance.py (Ước lượng khoảng cách)"]
+        C --> F["face_recognition.py (Haar + Template Matching)"]
 
-        E --> G["Hiển thị kết quả và Phát âm thanh"] ::: output
+        E --> G["Hiển thị kết quả và Phát âm thanh"]
         F --> G
         D --> G
     end
+
+    class A mainApp;
+    class B,C,D module;
+    class E,F subModule;
+    class G output;
 ```
