@@ -5,14 +5,14 @@ graph TD
     classDef decision stroke:#d97706,stroke-width:1.5px,fill:#78350f,color:#ffffff,rx:6px,ry:6px;
     classDef output stroke:#7c3aed,stroke-width:1.5px,fill:#4c1d95,color:#ffffff,rx:6px,ry:6px;
 
-    subgraph PHASE1 ["Giai đoạn 1: Khởi tạo & Phát hiện"]
+    subgraph PHASE1 ["Giai đoạn 1: Khởi tạo và Phát hiện"]
         direction LR
         A["Bắt đầu"] --> B["Khởi tạo các module"]
         B --> C["Đọc khung hình từ camera"]
         C --> D["Phát hiện vật thể (YOLOv8)"]
     end
 
-    subgraph PHASE2 ["Giai đoạn 2: Xử lý thông tin & Nhận diện"]
+    subgraph PHASE2 ["Giai đoạn 2: Xử lý thông tin và Nhận diện"]
         direction LR
         D --> E{"Phát hiện người?"}
         E -- Có --> F["TTS: 'Có người phía trước'"]
@@ -22,7 +22,7 @@ graph TD
         H --> I["Nhận diện khuôn mặt<br>(Haar + Template Match)"]
     end
 
-    subgraph PHASE3 ["Giai đoạn 3: Hiển thị & Điều khiển vòng lặp"]
+    subgraph PHASE3 ["Giai đoạn 3: Hiển thị và Điều khiển vòng lặp"]
         direction LR
         I --> J["Hiển thị kết quả trên màn hình"]
         J --> K{"Kiểm tra phím ESC"}
