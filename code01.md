@@ -1,4 +1,4 @@
-```
+```mermaid
 graph TD
     classDef mainApp stroke:#2563eb,stroke-width:2px,fill:#eff6ff,rx:8px,ry:8px;
     classDef module stroke:#059669,stroke-width:1.5px,fill:#ecfdf5,rx:6px,ry:6px;
