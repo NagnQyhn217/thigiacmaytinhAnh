@@ -1,9 +1,9 @@
 ```mermaid
 graph TD
-    classDef mainApp stroke:#2563eb,stroke-width:2px,fill:#eff6ff,rx:8px,ry:8px;
-    classDef module stroke:#059669,stroke-width:1.5px,fill:#ecfdf5,rx:6px,ry:6px;
-    classDef subModule stroke:#d97706,stroke-width:1.5px,fill:#fffbeb,rx:6px,ry:6px;
-    classDef output stroke:#7c3aed,stroke-width:1.5px,fill:#f5f3ff,rx:6px,ry:6px;
+    classDef mainApp stroke:#2563eb,stroke-width:2px,fill:#1e3a8a,color:#ffffff,rx:6px,ry:6px;
+    classDef module stroke:#059669,stroke-width:1.5px,fill:#064e3b,color:#ffffff,rx:6px,ry:6px;
+    classDef subModule stroke:#d97706,stroke-width:1.5px,fill:#78350f,color:#ffffff,rx:6px,ry:6px;
+    classDef output stroke:#7c3aed,stroke-width:1.5px,fill:#4c1d95,color:#ffffff,rx:6px,ry:6px;
 
     subgraph MAIN ["CHƯƠNG TRÌNH CHÍNH - main.py"]
         A["Khởi tạo và điều phối các module"]
