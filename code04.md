@@ -11,21 +11,20 @@ graph TD
 
     subgraph DEEPSORT_FLOW ["QUY TRÌNH THEO DÕI DEEPSORT"]
         
-        %% Hàng 1: Input và Bước 1
+        %% --- HÀNG 1 (Từ Tới Sang Phải) ---
         In["<b>INPUT</b><br/>Detections & Tracks"] --> S1["<b>Bước 1: Dự đoán (Kalman)</b><br/>x̂ₖ|ₖ₋₁ = Fₖ x̂ₖ₋₁|ₖ₋₁ + Bₖ uₖ"]
+        S1 --> S2["<b>Bước 2: Ma trận Chi phí</b><br/>Cost = λ×Mahalanobis + (1-λ)×Cosine"]
         
-        %% Xuống hàng 2: Bước 2 và Bước 3
-        S1 --> S2["<b>Bước 2: Tính Ma trận Chi phí</b><br/>Cost = λ×Mahalanobis + (1-λ)×Cosine"]
-        S2 --> S3["<b>Bước 3: Gán (Hungarian Alg.)</b><br/>• Tối ưu tổng chi phí<br/>• Ngưỡng max_cosine = 0.3"]
+        %% Mối nối từ Hàng 1 xuống Hàng 2 (Chạy từ S2 xuống S3)
+        S2 --> S3
         
-        %% Xuống hàng 3: Bước 4, Bước 5 và Output
-        S3 --> S4["<b>Bước 4: Cập nhật Tracks</b><br/>• Được gán: Update<br/>• Không gán: Tăng age<br/>• Chưa gán: Tạo mới"]
-        S4 --> S5["<b>Bước 5: Vòng đời Tracks</b><br/>• Xóa: age > 30<br/>• Xác nhận: n_init = 3"]
-        S5 --> Out["<b>OUTPUT</b><br/>Tracks đã cập nhật"]
+        %% --- HÀNG 2 (Tới Sang Phải) ---
+        S3["<b>Bước 3: Gán (Hungarian)</b><br/>• Tối ưu tổng chi phí<br/>• Ngưỡng max_cosine = 0.3"] --> S4["<b>Bước 4 & 5: Cập nhật & Vòng đời</b><br/>• Update / Tăng age / Tạo mới<br/>• Xóa (age > 30) | Xác nhận (n_init = 3)"]
+        S4 --> Out["<b>OUTPUT</b><br/>Tracks đã cập nhật"]
 
     end
 
     class In inputNode;
     class S1,S2 stepNode;
-    class S3,S4,S5 subStepNode;
+    class S3,S4 subStepNode;
     class Out outputNode;
