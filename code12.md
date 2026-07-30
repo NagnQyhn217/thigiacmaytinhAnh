@@ -3,21 +3,18 @@
 'theme':'base',
 'themeVariables':{
 'background':'#FFFFFF',
-'primaryTextColor':'#222222',
+'primaryTextColor':'#1E293B',
 'fontFamily':'Times New Roman',
 'fontSize':'14px',
-'lineColor':'#555555'
+'lineColor':'#64748B'
 },
 'flowchart':{
-'nodeSpacing': 10,
-'rankSpacing': 10
+'nodeSpacing': 30,
+'rankSpacing': 40
 }
 }}%%
 
 flowchart LR
-
-subgraph MAIN["<b>HÌNH 3.2. KẾT QUẢ THEO DÕI ĐỐI TƯỢNG VỚI DeepSORT</b>"]
-direction LR
 
     %% FRAME 1
     subgraph F1["<b>FRAME 1</b>"]
@@ -35,16 +32,13 @@ direction LR
         F2_OBJ1 ~~~ F2_OBJ2
     end
 
-    %% Duy trì ID qua các Frame
-    F1_OBJ1 -- "Duy trì ID: 1" --> F2_OBJ1
-    F1_OBJ2 -- "Duy trì ID: 2" --> F2_OBJ2
+    %% Nối trực tiếp gọn gàng
+    F1_OBJ1 -- "ID: 1" --> F2_OBJ1
+    F1_OBJ2 -- "ID: 2" --> F2_OBJ2
 
-end
-
-classDef bbox fill:#102A12,color:#00FF66,stroke:#00FF66,stroke-width:2px;
+classDef bbox fill:#1E293B,color:#38BDF8,stroke:#0284C7,stroke-width:2px;
 
 class F1_OBJ1,F1_OBJ2,F2_OBJ1,F2_OBJ2 bbox
 
-style MAIN fill:#F7F7F7,stroke:#666666,stroke-width:2px
-style F1 fill:#1A1A1A,color:#FFFFFF,stroke:#333333,stroke-width:2px
-style F2 fill:#1A1A1A,color:#FFFFFF,stroke:#333333,stroke-width:2px
+style F1 fill:#F1F5F9,color:#0F172A,stroke:#94A3B8,stroke-width:2px
+style F2 fill:#F1F5F9,color:#0F172A,stroke:#94A3B8,stroke-width:2px
