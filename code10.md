@@ -15,29 +15,16 @@ flowchart TB
 subgraph MAIN["LƯU ĐỒ HOẠT ĐỘNG HỆ THỐNG"]
 direction TB
 
-    %% Khối chính dàn hàng ngang
-    subgraph TOP[" "]
-    direction LR
-        A["<b>ACQUISITION</b><br/><br/>• Khởi tạo hệ thống:<br/>  - Detector<br/>  - DeepSORT<br/>  - FaceNet<br/>  - Edge-TTS<br/><br/>• Đọc Frame từ Camera"] 
-        --> B["<b>VISION PROCESSING</b><br/><br/>• YOLOv8: Phát hiện vật thể<br/>• DeepSORT: Theo dõi đối tượng<br/>• FaceNet + MTCNN: Nhận diện khuôn mặt<br/>• Ước lượng khoảng cách"] 
-        --> C["<b>OUTPUT</b><br/><br/>• Hiển thị Bounding Box<br/>• Hiển thị ID/Tên<br/>• Phát thông báo Edge-TTS"]
-    end
+    %% Luồng chính hàng ngang
+    A["<b>ACQUISITION</b><br/><br/>• Khởi tạo hệ thống:<br/>  - Detector<br/>  - DeepSORT<br/>  - FaceNet<br/>  - Edge-TTS<br/><br/>• Đọc Frame từ Camera"] 
+    --> B["<b>VISION PROCESSING</b><br/><br/>• YOLOv8: Phát hiện vật thể<br/>• DeepSORT: Theo dõi đối tượng<br/>• FaceNet + MTCNN: Nhận diện khuôn mặt<br/>• Ước lượng khoảng cách"] 
+    --> C["<b>OUTPUT</b><br/><br/>• Hiển thị Bounding Box<br/>• Hiển thị ID/Tên<br/>• Phát thông báo Edge-TTS"]
 
-    %% Khối điều kiện & Luồng lặp
-    CHECK{"<b>Nhấn ESC?</b>"}
-    LOOP["Quay lại Camera"]
-    END_NODE(["<b>KẾT THÚC</b>"])
-
-    %% Kết nối từ các khối trên xuống điều kiện
-    B --> CHECK
-    C --> CHECK
-
-    %% Rẽ nhánh điều kiện
-    CHECK -- "Không" --> LOOP
-    CHECK -- "Có" --> END_NODE
-
-    %% Luồng lặp ngược lại
-    LOOP .-> A
+    %% Luồng kiểm tra bên dưới
+    C --> CHECK{"<b>Nhấn ESC?</b>"}
+    
+    CHECK -- "Không (Quay lại Camera)" --> A
+    CHECK -- "Có" --> END_NODE(["<b>KẾT THÚC</b>"])
 
 end
 
@@ -50,4 +37,3 @@ class CHECK conditionClass
 class END_NODE endClass
 
 style MAIN fill:#F7F7F7,stroke:#666666,stroke-width:2px
-style TOP fill:transparent,stroke:none
