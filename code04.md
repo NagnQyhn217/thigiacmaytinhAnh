@@ -1,9 +1,21 @@
 ```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'darkMode': false,
+    'background': '#ffffff',
+    'primaryColor': '#ffffff',
+    'primaryTextColor': '#1c1e21',
+    'primaryBorderColor': '#34495e',
+    'lineColor': '#2c3e50',
+    'fontFamily': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+  }
+}}%%
 flowchart TD
-    %% Định nghĩa font chữ chuẩn, bo góc mượt và màu sắc dễ nhìn
-    classDef header fill:#2b5c8f,color:#ffffff,stroke:#1d3d5f,stroke-width:2px,font-family:sans-serif,font-weight:bold;
-    classDef io fill:#34495e,color:#ffffff,stroke:#2c3e50,stroke-width:2px,font-family:sans-serif,font-weight:bold;
-    classDef step fill:#ffffff,color:#2c3e50,stroke:#34495e,stroke-width:1.5px,font-family:sans-serif,text-align:left;
+    %% Styling chi tiết cho từng nhóm ô
+    classDef header fill:#2b5c8f,color:#ffffff,stroke:#1d3d5f,stroke-width:2px,font-weight:bold;
+    classDef io fill:#efefef,color:#2c3e50,stroke:#34495e,stroke-width:2px,font-weight:bold;
+    classDef step fill:#ffffff,color:#2c3e50,stroke:#8e44ad,stroke-width:1.5px,text-align:left;
 
     TITLE["QUY TRÌNH THEO DÕI ĐỐI TƯỢNG VỚI DeepSORT"]:::header
 
