@@ -59,4 +59,3 @@ class B,C,D,E,F process
 class G output
 
 style MAIN fill:#F7F7F7,stroke:#666666,stroke-width:2px
-```
