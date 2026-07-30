@@ -5,44 +5,47 @@
 'background':'#FFFFFF',
 'primaryTextColor':'#222222',
 'fontFamily':'Times New Roman',
-'fontSize':'16px',
+'fontSize':'15px',
 'lineColor':'#555555'
 }
 }}%%
 
-flowchart TB
+flowchart LR
 
 subgraph MAIN["QUY TRÌNH NHẬN DIỆN KHUÔN MẶT VỚI MTCNN + FaceNet"]
-direction TB
+direction LR
 
-A["INPUT<br/><b>Khung hình (frame) và encodings.pkl (database)</b>"]
+A["INPUT<br/><b>Frame + encodings.pkl</b>"]
 
-B["<b>BƯỚC 1: Phát hiện khuôn mặt bằng MTCNN</b><br/><br/>
-• Phát hiện các khuôn mặt trong ảnh<br/>
-• Trả về bounding box và 5 điểm đặc trưng<br/>
-• Tham số: margin = 20, min_face_size = 60"]
+B["<b>BƯỚC 1</b><br/>
+MTCNN<br/>
+• Phát hiện khuôn mặt<br/>
+• Bounding Box<br/>
+• 5 Landmark"]
 
-C["<b>BƯỚC 2: Cắt và tiền xử lý khuôn mặt</b><br/><br/>
-• Crop vùng khuôn mặt dựa trên bounding box<br/>
-• Resize về kích thước 160×160 pixel<br/>
-• Chuẩn hóa giá trị pixel về [-1, 1]"]
+C["<b>BƯỚC 2</b><br/>
+Tiền xử lý<br/>
+• Crop Face<br/>
+• Resize 160×160<br/>
+• Chuẩn hóa [-1,1]"]
 
-D["<b>BƯỚC 3: Trích xuất embedding bằng FaceNet (InceptionResnetV1)</b><br/><br/>
-• Đưa ảnh khuôn mặt qua mạng InceptionResnetV1<br/>
-• Trả về vector embedding 512 chiều<br/>
-• Chuẩn hóa L2 để sử dụng với Euclidean Distance"]
+D["<b>BƯỚC 3</b><br/>
+FaceNet<br/>
+(InceptionResnetV1)<br/>
+• Embedding 512D<br/>
+• Chuẩn hóa L2"]
 
-E["<b>BƯỚC 4: So sánh với database bằng Euclidean Distance</b><br/><br/>
-distance = √∑(emb_query − emb_db)²<br/>
-• Tính khoảng cách với tất cả embeddings trong database<br/>
-• Tìm người có khoảng cách nhỏ nhất<br/>
-• Ngưỡng threshold = 0.8"]
+E["<b>BƯỚC 4</b><br/>
+Euclidean Distance<br/>
+• So sánh Database<br/>
+• Threshold = 0.8"]
 
-F["<b>BƯỚC 5: Quyết định</b><br/><br/>
-• Nếu min_distance < 0.8: Trả về tên người tương ứng<br/>
-• Ngược lại: Trả về 'Unknown'"]
+F["<b>BƯỚC 5</b><br/>
+Quyết định<br/>
+• distance < 0.8 → Tên<br/>
+• Ngược lại → Unknown"]
 
-G["OUTPUT<br/><b>Bounding box + Tên người + Khoảng cách</b>"]
+G["OUTPUT<br/><b>Bounding Box<br/>Tên người<br/>Distance</b>"]
 
 A --> B
 B --> C
@@ -62,3 +65,4 @@ class B,C,D,E,F process
 class G output
 
 style MAIN fill:#F7F7F7,stroke:#666666,stroke-width:2px
+```
