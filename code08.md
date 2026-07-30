@@ -10,28 +10,28 @@
 }
 }}%%
 
-flowchart TB
+flowchart LR
 
 subgraph MAIN["QUY TRÌNH TTS VỚI EDGE-TTS"]
-direction TB
+direction LR
 
-A["INPUT<br/><b>Văn bản cần chuyển đổi (Text)</b><br/><br/>Ví dụ: 'Có người phía trước, khoảng cách 2.5 mét'"]
+A["INPUT<br/><b>Văn bản cần chuyển đổi</b><br/><br/>Ví dụ: 'Có người phía trước,<br/>khoảng cách 2.5 mét'"]
 
-B["<b>BƯỚC 1. Tạo kết nối với dịch vụ Edge-TTS</b><br/><br/>
-communicate = edge_tts.Communicate(text=text, voice=VOICE)"]
+B["<b>BƯỚC 1. Kết nối Edge-TTS</b><br/><br/>
+communicate =<br/>edge_tts.Communicate(<br/>text=text, voice=VOICE)"]
 
-C["<b>BƯỚC 2. Tạo file âm thanh tạm thời</b><br/><br/>
+C["<b>BƯỚC 2. Tạo file tạm</b><br/><br/>
 await communicate.save(filename)<br/>
-filename = tempfile.gettempdir() + 'speech.mp3'"]
+filename = tempfile.gettempdir()<br/>+ 'speech.mp3'"]
 
 D["<b>BƯỚC 3. Phát âm thanh</b><br/><br/>
 playsound(filename)<br/>
-• Phát âm thanh thông qua loa/headphone"]
+• Phát thông qua<br/>loa/headphone"]
 
-E["<b>BƯỚC 4. Xóa file tạm thời</b><br/><br/>
+E["<b>BƯỚC 4. Xóa file tạm</b><br/><br/>
 os.remove(filename)"]
 
-F["OUTPUT<br/><b>Âm thanh phát ra thông qua loa/headphone</b>"]
+F["OUTPUT<br/><b>Âm thanh phát ra</b><br/><br/>Thông qua loa/headphone"]
 
 A --> B
 B --> C
