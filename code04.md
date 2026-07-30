@@ -1,42 +1,62 @@
 ```mermaid
-%%{init: {
-  'theme': 'base',
-  'themeVariables': {
-    'darkMode': false,
-    'background': '#ffffff',
-    'primaryColor': '#ffffff',
-    'primaryTextColor': '#1c1e21',
-    'primaryBorderColor': '#7f8c8d',
-    'lineColor': '#2c3e50',
-    'fontFamily': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-  }
+%%{init:{
+'theme':'base',
+'themeVariables':{
+'background':'#FFFFFF',
+'primaryTextColor':'#222222',
+'fontFamily':'Times New Roman',
+'fontSize':'16px',
+'lineColor':'#555555'
+}
 }}%%
-flowchart TD
-    %% Định nghĩa màu sắc cho từng nhóm ô
-    classDef header fill:#2b5c8f,color:#ffffff,stroke:#1d3d5f,stroke-width:2px,font-weight:bold;
-    classDef io fill:#e1f5fe,color:#0277bd,stroke:#0277bd,stroke-width:2px,font-weight:bold;
-    classDef step fill:#f9f9f9,color:#2c3e50,stroke:#7f8c8d,stroke-width:1.5px,text-align:left;
 
-    TITLE["QUY TRÌNH THEO DÕI ĐỐI TƯỢNG VỚI DeepSORT"]:::header
+flowchart TB
 
-    IN_OUT1["INPUT: Detections từ YOLOv8 và Tracks hiện tại"]:::io
+subgraph MAIN["QUY TRÌNH THEO DÕI ĐỐI TƯỢNG VỚI DeepSORT"]
+direction TB
 
-    STEP1["<b>BƯỚC 1: Dự đoán trạng thái mới bằng Kalman Filter</b><br/>• Dự đoán: x̂(k|k-1) = F(k) * x̂(k-1|k-1) + B(k) * u(k)"]:::step
+A["INPUT<br/><b>Detections từ YOLOv8 và Tracks hiện tại</b>"]
 
-    STEP2["<b>BƯỚC 2: Tính ma trận chi phí giữa Tracks và Detections</b><br/>• Cost = λ × Mahalanobis + (1-λ) × Cosine Distance"]:::step
+B["<b>BƯỚC 1. Dự đoán trạng thái mới</b><br/><br/>
+Kalman Filter<br/>
+x̂(k|k−1)=F(k)x̂(k−1|k−1)+B(k)u(k)"]
 
-    STEP3["<b>BƯỚC 3: Gán Tracks với Detections bằng Hungarian Algorithm</b><br/>• Phân phối tối ưu để tổng chi phí nhỏ nhất<br/>• Áp dụng ngưỡng chi phí (<code>max_cosine_distance = 0.3</code>)"]:::step
+C["<b>BƯỚC 2. Tính ma trận chi phí</b><br/><br/>
+Cost = λ × Mahalanobis Distance<br/>
++ (1−λ) × Cosine Distance"]
 
-    STEP4["<b>BƯỚC 4: Cập nhật trạng thái Tracks</b><br/>• <b>Tracks được gán:</b> Cập nhật với detection mới<br/>• <b>Tracks không gán:</b> Tiếp tục dự đoán (tăng age)<br/>• <b>Tracks mới:</b> Tạo mới từ detection chưa gán"]:::step
+D["<b>BƯỚC 3. Gán Track với Detection</b><br/><br/>
+Hungarian Algorithm<br/>
+• Tìm phép ghép tối ưu<br/>
+• max_cosine_distance = 0.3"]
 
-    STEP5["<b>BƯỚC 5: Quản lý vòng đời Tracks</b><br/>• Xóa track khi <code>age > max_age (30)</code><br/>• Xác nhận track khi <code>n_init (3)</code> frame liên tiếp"]:::step
+E["<b>BƯỚC 4. Cập nhật Track</b><br/><br/>
+• Track được ghép → Cập nhật trạng thái<br/>
+• Track chưa ghép → Tăng age<br/>
+• Detection mới → Tạo Track mới"]
 
-    IN_OUT2["OUTPUT: Danh sách Tracks đã cập nhật với ID ổn định"]:::io
+F["<b>BƯỚC 5. Quản lý vòng đời Track</b><br/><br/>
+• Xóa khi age > max_age (30)<br/>
+• Xác nhận khi đủ n_init = 3 frame"]
 
-    TITLE --- IN_OUT1
-    IN_OUT1 --> STEP1
-    STEP1 --> STEP2
-    STEP2 --> STEP3
-    STEP3 --> STEP4
-    STEP4 --> STEP5
-    STEP5 --> IN_OUT2
+G["OUTPUT<br/><b>Danh sách Track với ID ổn định</b>"]
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+
+end
+
+classDef input fill:#2348A5,color:#ffffff,stroke:#1B3D91,stroke-width:2px;
+classDef process fill:#A65A17,color:#ffffff,stroke:#7A3F0F,stroke-width:2px;
+classDef output fill:#5B2BB5,color:#ffffff,stroke:#47208F,stroke-width:2px;
+
+class A input
+class B,C,D,E,F process
+class G output
+
+style MAIN fill:#F7F7F7,stroke:#666666,stroke-width:2px
+```
