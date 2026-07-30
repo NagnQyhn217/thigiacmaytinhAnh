@@ -1,21 +1,44 @@
 ```mermaid
-graph TD
-    classDef root fill:#1e3a8a,stroke:#2563eb,stroke-width:2px,color:#ffffff,rx:6px,ry:6px;
-    classDef folder fill:#064e3b,stroke:#059669,stroke-width:1.5px,color:#ffffff,rx:6px,ry:6px;
-    classDef file fill:#4c1d95,stroke:#7c3aed,stroke-width:1.5px,color:#ffffff,rx:6px,ry:6px;
+%%{init:{
+'theme':'base',
+'themeVariables':{
+'background':'#FFFFFF',
+'primaryTextColor':'#222222',
+'fontFamily':'Times New Roman',
+'fontSize':'16px',
+'lineColor':'#555555'
+}
+}}%%
 
-    ROOT["📁 known_faces/"]
-    
-    ROOT --> PA["📁 Person_A/"]
-    ROOT --> PB["📁 Person_B/"]
-    ROOT --> ETC["📁 ..."]
+flowchart TB
 
-    PA --> A1["🖼️ 1.jpg"]
-    PA --> A2["🖼️ 2.jpg"]
-    
-    PB --> B1["🖼️ 1.jpg"]
+subgraph MAIN["ƯỚC LƯỢNG KHOẢNG CÁCH DỰA TRÊN BOUNDING BOX"]
+direction TB
 
-    class ROOT root;
-    class PA,PB,ETC folder;
-    class A1,A2,B1 file;
-```
+A["INPUT<br/><b>Bounding box của đối tượng (x1, y1, x2, y2)</b><br/><br/>Frame: 640 × 480"]
+
+B["<b>CÔNG THỨC TÍNH KHOẢNG CÁCH</b><br/><br/>
+• BoxArea = (x2 − x1) × (y2 − y1)<br/>
+• AreaRatio = BoxArea / FrameArea<br/>
+• Distance = BaseSize / √AreaRatio<br/>
+• Distance = max(0.3, min(8.0, Distance))"]
+
+C["OUTPUT<br/><b>Khoảng cách (m)</b><br/><br/>
+• Gần: 0.3 − 2.0m<br/>
+• Trung bình: 2.0 − 5.0m<br/>
+• Xa: 5.0 − 8.0m"]
+
+A --> B
+B --> C
+
+end
+
+classDef input fill:#2348A5,color:#ffffff,stroke:#1B3D91,stroke-width:2px;
+classDef process fill:#A65A17,color:#ffffff,stroke:#7A3F0F,stroke-width:2px;
+classDef output fill:#5B2BB5,color:#ffffff,stroke:#47208F,stroke-width:2px;
+
+class A input
+class B process
+class C output
+
+style MAIN fill:#F7F7F7,stroke:#666666,stroke-width:2px
