@@ -5,7 +5,7 @@
 'background':'#FFFFFF',
 'primaryTextColor':'#222222',
 'fontFamily':'Times New Roman',
-'fontSize':'16px',
+'fontSize':'18px',
 'lineColor':'#555555'
 }
 }}%%
