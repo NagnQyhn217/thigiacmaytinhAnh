@@ -1,30 +1,31 @@
 ```mermaid
-graph TD
-    %% Tối ưu giao diện sáng
-    style DEEPSORT_FLOW fill:#f8fafc,stroke:#475569,stroke-width:1.5px,color:#0f172a
+flowchart TD
+    %% Định nghĩa Style
+    classDef header fill:#2b5c8f,color:#fff,stroke:#1d3d5f,stroke-width:2px,font-weight:bold;
+    classDef inputOutput fill:#34495e,color:#fff,stroke:#2c3e50,stroke-width:2px,font-weight:bold;
+    classDef stepNode fill:#ffffff,color:#2c3e50,stroke:#34495e,stroke-width:1px,text-align:left;
 
-    %% Tăng cỡ chữ lên to rõ (font-size: 16px - 18px)
-    classDef inputNode stroke:#2563eb,stroke-width:2px,fill:#1e3a8a,color:#ffffff,rx:6px,ry:6px,font-size:16px;
-    classDef stepNode stroke:#059669,stroke-width:2px,fill:#064e3b,color:#ffffff,rx:6px,ry:6px,font-size:16px;
-    classDef subStepNode stroke:#d97706,stroke-width:2px,fill:#78350f,color:#ffffff,rx:6px,ry:6px,font-size:15px;
-    classDef outputNode stroke:#7c3aed,stroke-width:2px,fill:#4c1d95,color:#ffffff,rx:6px,ry:6px,font-size:16px;
+    TITLE["<b>QUY TRÌNH THEO DÕI ĐỐI TƯỢNG VỚI DeepSORT</b>"]:::header
+    
+    IN_OUT1["<b>INPUT:</b> Detections từ YOLOv8 và Tracks hiện tại"]:::inputOutput
+    
+    STEP1["<b>BƯỚC 1: Dự đoán trạng thái mới bằng Kalman Filter</b><br/>• $\hat{x}_{k|k-1} = F_k \hat{x}_{k-1|k-1} + B_k u_k$"]:::stepNode
+    
+    STEP2["<b>BƯỚC 2: Tính ma trận chi phí giữa Tracks và Detections</b><br/>• $\text{Cost} = \lambda \times \text{Mahalanobis} + (1-\lambda) \times \text{Cosine Distance}$"]:::stepNode
+    
+    STEP3["<b>BƯỚC 3: Gán Tracks với Detections bằng Hungarian Algorithm</b><br/>• Phân phối tối ưu để tổng chi phí nhỏ nhất<br/>• Áp dụng ngưỡng chi phí (<code>max_cosine_distance = 0.3</code>)"]:::stepNode
+    
+    STEP4["<b>BƯỚC 4: Cập nhật trạng thái Tracks</b><br/>• <b>Tracks được gán:</b> Cập nhật với detection mới<br/>• <b>Tracks không gán:</b> Tiếp tục dự đoán (tăng age)<br/>• <b>Tracks mới:</b> Tạo mới từ detection chưa gán"]:::stepNode
+    
+    STEP5["<b>BƯỚC 5: Quản lý vòng đời Tracks</b><br/>• Xóa track khi <code>age > max_age (30)</code><br/>• Xác nhận track khi <code>n_init (3)</code> frame liên tiếp"]:::stepNode
+    
+    IN_OUT2["<b>OUTPUT:</b> Danh sách Tracks đã cập nhật với ID ổn định"]:::inputOutput
 
-    subgraph DEEPSORT_FLOW ["QUY TRÌNH THEO DÕI DEEPSORT"]
-        
-        %% --- HÀNG 1 (Từ Tới Sang Phải) ---
-        In["<b>INPUT</b><br/>Detections & Tracks"] --> S1["<b>Bước 1: Dự đoán (Kalman)</b><br/>x̂ₖ|ₖ₋₁ = Fₖ x̂ₖ₋₁|ₖ₋₁ + Bₖ uₖ"]
-        S1 --> S2["<b>Bước 2: Ma trận Chi phí</b><br/>Cost = λ×Mahalanobis + (1-λ)×Cosine"]
-        
-        %% Mối nối từ Hàng 1 xuống Hàng 2 (Chạy từ S2 xuống S3)
-        S2 --> S3
-        
-        %% --- HÀNG 2 (Tới Sang Phải) ---
-        S3["<b>Bước 3: Gán (Hungarian)</b><br/>• Tối ưu tổng chi phí<br/>• Ngưỡng max_cosine = 0.3"] --> S4["<b>Bước 4 & 5: Cập nhật & Vòng đời</b><br/>• Update / Tăng age / Tạo mới<br/>• Xóa (age > 30) | Xác nhận (n_init = 3)"]
-        S4 --> Out["<b>OUTPUT</b><br/>Tracks đã cập nhật"]
-
-    end
-
-    class In inputNode;
-    class S1,S2 stepNode;
-    class S3,S4 subStepNode;
-    class Out outputNode;
+    %% Điều hướng luồng
+    TITLE --- IN_OUT1
+    IN_OUT1 --> STEP1
+    STEP1 --> STEP2
+    STEP2 --> STEP3
+    STEP3 --> STEP4
+    STEP4 --> STEP5
+    STEP5 --> IN_OUT2
