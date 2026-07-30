@@ -10,12 +10,12 @@
 }
 }}%%
 
-flowchart TB
+flowchart LR
 
 subgraph MAIN["ƯỚC LƯỢNG KHOẢNG CÁCH DỰA TRÊN BOUNDING BOX"]
-direction TB
+direction LR
 
-A["INPUT<br/><b>Bounding box của đối tượng (x1, y1, x2, y2)</b><br/><br/>Frame: 640 × 480"]
+A["INPUT<br/><b>Bounding box đối tượng</b><br/>(x1, y1, x2, y2)<br/><br/>Frame: 640 × 480"]
 
 B["<b>CÔNG THỨC TÍNH KHOẢNG CÁCH</b><br/><br/>
 • BoxArea = (x2 − x1) × (y2 − y1)<br/>
