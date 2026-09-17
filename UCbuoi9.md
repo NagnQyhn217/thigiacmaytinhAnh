@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     autonumber
     actor QTV as :Quản trị viên
@@ -27,3 +28,4 @@ sequenceDiagram
     deactivate C
     UI-->>QTV: hienThiThongBao()
     deactivate UI
+end
