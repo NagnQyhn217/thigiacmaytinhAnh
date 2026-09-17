@@ -28,4 +28,4 @@ sequenceDiagram
     deactivate C
     UI-->>QTV: hienThiThongBao()
     deactivate UI
-end
+```
